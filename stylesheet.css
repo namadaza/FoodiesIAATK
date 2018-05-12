@@ -1,0 +1,23 @@
+html {
+	margin: 0px;
+}
+
+body {
+	width: 100%;
+	margin: 0px;
+	grid-template-rows: 20% 1fr;
+	grid-template-columns: 1fr;
+	grid-template-areas: 
+		"header"
+		"content"
+}
+
+.header {
+	grid-area: header;
+	background: #e57c00;
+	padding: 20px;
+}
+
+.header img {
+	width: 100%;
+}
