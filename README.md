@@ -12,6 +12,21 @@
 * Take user First Name, Last Name, and Phone #
     * Perform POST to Google App Script to check Sign Up Sheet
         * If user already exists:
+            * Check check in sheet
+                * If exists, return "You've Already Checked In"
+                * Else, continue
             * Point to check in form
+            * Redirect to form with pre-fill URL
+            * https://docs.google.com/forms/d/e/1FAIpQLSddXGl58TEoMi4sGEaDC5R4F7tPcDUuIlf2-Gt03yJVAkR2nA/viewform?usp=pp_url&entry.37100989=*%7CFNAME%7C*&entry.1071438744=*%7CLNAME%7C*&entry.1355554313=*%7CPHONE%7C*
+            * Replace the following:
+                * *%7CFNAME%7C* with First+Name
+                * *%7CLNAME%7C* with Last+Name
+                * *%7CPHONE%7C* with PhoneNumber
         * If user does not exist:
             * Point to sign up form
+            * Redirect to form with pre-fill URL
+            * https://docs.google.com/forms/d/e/1FAIpQLSdj0OV0Axz4wEQIwjOGVZhyqA_NTr_IChGPIcZd4er0rDWAAg/viewform?usp=pp_url&entry.339946888=*%7CFNAME%7C*&entry.259180344=*%7CLNAME%7C*&entry.1768999351=*%7CPHONE%7C*
+            * Replace the following:
+                * *%7CFNAME%7C* with First+Name
+                * *%7CLNAME%7C* with Last+Name
+                * *%7CPHONE%7C* with PhoneNumber
