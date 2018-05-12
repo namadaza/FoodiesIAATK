@@ -9,7 +9,9 @@
     * https://drive.google.com/drive/folders/1FlaXnxuyIql7MpYt0swt6CMgxZWSf388?usp=sharing
 
 ### Flow of App
-* If user already exists:
-    * Point to check in form
-* If user does not exist:
-    * Point to sign up form
+* Take user First Name, Last Name, and Phone #
+    * Perform POST to Google App Script to check Sign Up Sheet
+        * If user already exists:
+            * Point to check in form
+        * If user does not exist:
+            * Point to sign up form
