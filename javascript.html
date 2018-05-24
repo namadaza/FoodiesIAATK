@@ -13,7 +13,7 @@ var phoneNumberInput = document.getElementById("phoneNumber");
 // userExists == 0 -> User NOT IN Sign up sheet AND NOT IN Check in sheet
 var userExists = 0;
 
-document.getElementById("sendButton").addEventListener("click", function() {
+document.getElementById("sendButton").addEventListener("click", async function() {
     console.log("Checking database for given user details: ");
     console.log("First Name: " + firstNameInput.value);
     console.log("Last Name: " + lastNameInput.value);
@@ -21,70 +21,79 @@ document.getElementById("sendButton").addEventListener("click", function() {
 
     // check for existence in the google sheets
     console.log('calling send()');
-    send();
 
-    setTimeout(function(){
-      var url = "";
-      if (userExists == 1) {
-        //Redirect user to check in page
-        console.log("check in page");
-        url = "https://docs.google.com/forms/d/e/1FAIpQLSddXGl58TEoMi4sGEaDC5R4F7tPcDUuIlf2-Gt03yJVAkR2nA/formResponse?&ifq&entry.37100989=" +
-                firstNameInput.value +
-                "&entry.1071438744=" +
-                lastNameInput.value +
-                "&entry.1355554313=" +
-                phoneNumberInput.value +
-                "&submit=Submit";
-      }
-      else if (userExists == 2) {
-        //Clear input fields, report to user they've checked in
-        console.log("signed up and already checked in, show some confirmation");
-        document.getElementById('firstName').value = "";
-        document.getElementById('lastName').value = "";
-        document.getElementById('phoneNumber').value = "";
-        window.alert(firstNameInput.value + " " + lastNameInput.value + " has already checked in for today!");
-      }
-      else {
-        //Redirect user to sign up page
-        console.log("sign up page");
-        url = "https://docs.google.com/forms/d/e/1FAIpQLSdj0OV0Axz4wEQIwjOGVZhyqA_NTr_IChGPIcZd4er0rDWAAg/viewform?entry.339946888=" +
-                firstNameInput.value +
-                "&entry.259180344=" +
-                lastNameInput.value +
-                "&entry.1768999351=" +
-                phoneNumberInput.value;
-      }
-      console.log(url);
-      location.href = url;
-    }, 2000);
+    // wait for send to set userExists
+    console.log("userExists before send: " + userExists);
+    await send();
+    console.log("userExists after send: " + userExists);
 
+    redirectUser();
 });
 
 function send() {
-  var fName = document.getElementById('firstName').value;
-  var lName = document.getElementById('lastName').value;
-  var pNumber = document.getElementById('phoneNumber').value;
-  google.script.run
-  .withSuccessHandler(function(response){
-    console.log("success");
-    console.log(response);
-    if (response === "EXISTS SIGNUP CHECKIN") {
-      userExists = 2;
-    }
-    else if (response == "EXISTS SIGNUP") {
-      userExists = 1;
-    }
-    else {
+  return new Promise(function (resolve, reject) {
+    var fName = firstNameInput.value;
+    var lName = lastNameInput.value;
+    var pNumber = phoneNumberInput.value;
+    google.script.run
+    .withSuccessHandler(function(response){
+      console.log("success");
+      console.log(response);
+      if (response === "EXISTS SIGNUP CHECKIN") {
+        userExists = 2;
+      }
+      else if (response == "EXISTS SIGNUP") {
+        userExists = 1;
+      }
+      else {
+        userExists = 0;
+      }
+      resolve(userExists);
+    })
+    .withFailureHandler(function(err) {
+      console.log("failure");
+      console.log("error");
       userExists = 0;
-    }
+      reject(Error("Invalid response from sheets"));
+    })
+    .getDataSignUp([fName,lName,pNumber]);
   })
-  .withFailureHandler(function(err) {
-    console.log("failure");
-    console.log("error");
-    userExists = 0;
-  })
-  .getDataSignUp([fName,lName,pNumber]);
 }
 
+function redirectUser() {
+  var url = "";
+
+  if (userExists == 2) {
+    //Clear input fields, report to user they've checked in
+    console.log("signed up and already checked in, show some confirmation, userExists: " + userExists);
+    firstNameInput.value = "";
+    lastNameInput.value = "";
+    phoneNumberInput.value = "";
+    window.alert(firstNameInput.value + " " + lastNameInput.value + " has already checked in for today!");
+  }
+  else if (userExists == 1) {
+    //Redirect user to check in page
+    console.log("check in page, userExists: " + userExists);
+    url = "https://docs.google.com/forms/d/e/1FAIpQLSddXGl58TEoMi4sGEaDC5R4F7tPcDUuIlf2-Gt03yJVAkR2nA/formResponse?&ifq&entry.37100989=" +
+            firstNameInput.value +
+            "&entry.1071438744=" +
+            lastNameInput.value +
+            "&entry.1355554313=" +
+            phoneNumberInput.value +
+            "&submit=Submit";
+  }
+  else {
+    //Redirect user to sign up page
+    console.log("sign up page, userExists: " + userExists);
+    url = "https://docs.google.com/forms/d/e/1FAIpQLSdj0OV0Axz4wEQIwjOGVZhyqA_NTr_IChGPIcZd4er0rDWAAg/viewform?entry.339946888=" +
+            firstNameInput.value +
+            "&entry.259180344=" +
+            lastNameInput.value +
+            "&entry.1768999351=" +
+            phoneNumberInput.value;
+  }
+  console.log(url);
+  location.href = url;
+}
 
 </script>
