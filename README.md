@@ -1,10 +1,15 @@
 # FoodiesIAATK
 
 ### Understanding This Project
-Code is put into .html files as workaround for Google App Script limitations.
-GAS only runs HTML, thus stylesheets/javascript code wrapped with HTML tags.
-Application is hosted on Google App Script, providing many benefits:
+Login to dedicated foodies Google account.
 
+Code is ran on a project hosted on http://www.script.google.com
+
+Code is put into .html files as workaround for Google App Script limitations.
+
+GAS only runs HTML, thus stylesheets/javascript code wrapped with HTML tags.
+
+Application is hosted on Google App Script, providing many benefits:
 * Authentication is enforced via Google sign in
     * IAATK will be provided dedicated Google account to store checkin/signin sheets
 * Google App Script will host website for free
