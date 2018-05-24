@@ -1,5 +1,13 @@
 # FoodiesIAATK
 
+## Features / Bugs to Fix (for MVP)
+* Implement input text parsing (use Regex, define rules for first/last/phone# inputs)
+    * Ie. first/last should not contain numeric numbers, allow a few special characters
+* Fix bugs with reporting Already checked in error
+* Add logic to Google App Script to match Check In date with current date
+    * Ie. only report match if first/last/phone# has not been checked in for current date
+* Fix styling to make site appear cleaner
+
 ### Understanding This Project
 Login to dedicated foodies Google account.
 
