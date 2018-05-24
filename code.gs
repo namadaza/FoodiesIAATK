@@ -28,21 +28,19 @@ function getDataCheckIn(parameters) {
   try {
     var sh = SpreadsheetApp.openById(checkin_sheet_id).getSheetByName('Form Responses 1');
     var values = sh.getDataRange().getValues();
-    Logger.log(values);
 
     var uni = parameters[0] + parameters[1] + parameters[2];
-    Logger.log(uni);
+    Logger.log("Checking check in sheet for query: " + uni);
 
     for(var i = 0; i < values.length; i++){
-      Logger.log("in for loop");
       var dt = (values[i][1] || '') + (values[i][2] || 0) + (values[i][3] || '');
-      Logger.log(dt);
+      Logger.log("Query against: " + dt);
       if(dt == uni) {
         Logger.log(dt + " ==== " + uni);
         return 'ALREADY EXIST';
       }
     }
-    Logger.log("finished for loop");
+    Logger.log(uni + " not checked in");
     return 'DOESNT EXIST';
   }
   catch(e) {
@@ -54,24 +52,23 @@ function getDataSignUp(parameters){
   try {
     var sh = SpreadsheetApp.openById(signup_sheet_id).getSheetByName('Sheet 1');
     var values = sh.getDataRange().getValues();
-    Logger.log(values);
 
     var uni = parameters[0] + parameters[1] + parameters[2];
-    Logger.log(uni);
+    Logger.log("Checking sign up sheet for query: " + uni);
 
     for(var i = 0; i < values.length; i++){
-      Logger.log("in for loop");
       var dt = (values[i][1] || '') + (values[i][2] || 0) + (values[i][3] || '');
-      Logger.log(dt);
+      Logger.log("Query against: " + dt);
       if(dt == uni) {
         Logger.log(dt + " ==== " + uni);
         //return 'ALREADY EXIST';
         //Check if checked in already...
         is_checked_in = getDataCheckIn(parameters);
-        if (is_check_in === 'ALREADY EXIST') {
+        Logger.log("getDataCheckIn returned with: " + is_checked_in);
+        if (is_checked_in == 'ALREADY EXIST') {
           return 'EXISTS SIGNUP CHECKIN';
         }
-        else if (is_check_in === 'DOESNT EXIST') {
+        else if (is_checked_in == 'DOESNT EXIST') {
           return 'EXISTS SIGNUP';
         }
       }

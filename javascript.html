@@ -66,10 +66,10 @@ function redirectUser() {
   if (userExists == 2) {
     //Clear input fields, report to user they've checked in
     console.log("signed up and already checked in, show some confirmation, userExists: " + userExists);
+    window.alert("You've already checked in for today!");
     firstNameInput.value = "";
     lastNameInput.value = "";
     phoneNumberInput.value = "";
-    window.alert(firstNameInput.value + " " + lastNameInput.value + " has already checked in for today!");
   }
   else if (userExists == 1) {
     //Redirect user to check in page
