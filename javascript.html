@@ -1,0 +1,90 @@
+<script>
+
+window.addEventListener('load', function() {
+  console.log('Page is loaded');
+});
+
+var firstNameInput = document.getElementById("firstName");
+var lastNameInput = document.getElementById("lastName");
+var phoneNumberInput = document.getElementById("phoneNumber");
+
+// userExists == 2 -> User IN Sign up sheet AND Check in sheet
+// userExists == 1 -> User IN Sign up sheet NOT Check in sheet
+// userExists == 0 -> User NOT IN Sign up sheet AND NOT IN Check in sheet
+var userExists = 0;
+
+document.getElementById("sendButton").addEventListener("click", function() {
+    console.log("Checking database for given user details: ");
+    console.log("First Name: " + firstNameInput.value);
+    console.log("Last Name: " + lastNameInput.value);
+    console.log("Phone Number: " + phoneNumberInput.value);
+
+    // check for existence in the google sheets
+    console.log('calling send()');
+    send();
+
+    setTimeout(function(){
+      var url = "";
+      if (userExists == 1) {
+        //Redirect user to check in page
+        console.log("check in page");
+        url = "https://docs.google.com/forms/d/e/1FAIpQLSddXGl58TEoMi4sGEaDC5R4F7tPcDUuIlf2-Gt03yJVAkR2nA/formResponse?&ifq&entry.37100989=" +
+                firstNameInput.value +
+                "&entry.1071438744=" +
+                lastNameInput.value +
+                "&entry.1355554313=" +
+                phoneNumberInput.value +
+                "&submit=Submit";
+      }
+      else if (userExists == 2) {
+        //Clear input fields, report to user they've checked in
+        console.log("signed up and already checked in, show some confirmation");
+        document.getElementById('firstName').value = "";
+        document.getElementById('lastName').value = "";
+        document.getElementById('phoneNumber').value = "";
+        window.alert(firstNameInput.value + " " + lastNameInput.value + " has already checked in for today!");
+      }
+      else {
+        //Redirect user to sign up page
+        console.log("sign up page");
+        url = "https://docs.google.com/forms/d/e/1FAIpQLSdj0OV0Axz4wEQIwjOGVZhyqA_NTr_IChGPIcZd4er0rDWAAg/viewform?entry.339946888=" +
+                firstNameInput.value +
+                "&entry.259180344=" +
+                lastNameInput.value +
+                "&entry.1768999351=" +
+                phoneNumberInput.value;
+      }
+      console.log(url);
+      location.href = url;
+    }, 2000);
+
+});
+
+function send() {
+  var fName = document.getElementById('firstName').value;
+  var lName = document.getElementById('lastName').value;
+  var pNumber = document.getElementById('phoneNumber').value;
+  google.script.run
+  .withSuccessHandler(function(response){
+    console.log("success");
+    console.log(response);
+    if (response === "EXISTS SIGNUP CHECKIN") {
+      userExists = 2;
+    }
+    else if (response == "EXISTS SIGNUP") {
+      userExists = 1;
+    }
+    else {
+      userExists = 0;
+    }
+  })
+  .withFailureHandler(function(err) {
+    console.log("failure");
+    console.log("error");
+    userExists = 0;
+  })
+  .getDataSignUp([fName,lName,pNumber]);
+}
+
+
+</script>

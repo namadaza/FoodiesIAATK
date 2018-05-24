@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title> IAATK Foodies </title>
+    <base target="_top">
+    <?!= include('stylesheet'); ?>
+  </head>
+  <body>
+  <div class = "header">
+		<img src ="https://drive.google.com/uc?export=download&id=1PWKRAZ2zeUvFwd2SZ2SUsyrSk1mj4vuc" id="header_logo">
+  </div>
+  <div class = "content">
+   <div class="form-style-6">
+     <h1>Enter your details</h1>
+     <form>
+       <input id = "firstName" type="text" name="field1" placeholder="Your First Name" />
+       <input id = "lastName" type="text" name="field2" placeholder="Your Last Name" />
+       <input id = "phoneNumber" type="text" name="field3" placeholder="Your Phone Number" />
+       <input id = "sendButton" type="button" value="Send" />
+     </form>
+   </div>
+   <center style="padding: 20px">
+     <div class="block">
+      <a id="state"><span></span></a>
+      <div id="status"></div>
+    </div>
+    <div class="block">
+      <span></span>
+      <div id="myDiv"></div>
+    </div>
+  </center>
+  </div>
+    <?!= include('javascript'); ?>
+  </body>
+</html>

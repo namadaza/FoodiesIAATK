@@ -7,6 +7,8 @@
     * https://drive.google.com/drive/folders/0Bztea6vSatozfmU3em9wSU9wTDRTQV9LUXBCNmpyZWhOcjhNWlUyOHc0WjBVdzF6ZWlmU2s
 * Link to FOODIES test folder
     * https://drive.google.com/drive/folders/1FlaXnxuyIql7MpYt0swt6CMgxZWSf388?usp=sharing
+* Link to updated Features list
+    * https://docs.google.com/document/d/1y1GXUGGyYZ-I2o_VelawqkqNbzAb6PVWqj67QSd7ZMc/edit?usp=sharing
 
 ### Flow of App
 * Take user First Name, Last Name, and Phone #
