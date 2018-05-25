@@ -1,9 +1,6 @@
 <script>
-
-window.addEventListener('load', function() {
-  console.log('Page is loaded');
-});
-
+var nameRegex = /^[a-z ,.'-]+$/i; 
+var phoneRegex = /^\d{10}$/gm; 
 var firstNameInput = document.getElementById("firstName");
 var lastNameInput = document.getElementById("lastName");
 var phoneNumberInput = document.getElementById("phoneNumber");
@@ -18,16 +15,19 @@ document.getElementById("sendButton").addEventListener("click", async function()
     console.log("First Name: " + firstNameInput.value);
     console.log("Last Name: " + lastNameInput.value);
     console.log("Phone Number: " + phoneNumberInput.value);
+    
+    if(!checkError()) {
+    
+      // check for existence in the google sheets
+      console.log('calling send()');
 
-    // check for existence in the google sheets
-    console.log('calling send()');
-
-    // wait for send to set userExists
-    console.log("userExists before send: " + userExists);
-    await send();
-    console.log("userExists after send: " + userExists);
-
-    redirectUser();
+      // wait for send to set userExists
+      console.log("userExists before send: " + userExists);
+      await send();
+      console.log("userExists after send: " + userExists);
+  
+      redirectUser();
+    } 
 });
 
 function send() {
@@ -94,6 +94,29 @@ function redirectUser() {
   }
   console.log(url);
   location.href = url;
+}
+
+function checkError() { 
+    var errorMessage = "";
+    var fnError = !nameRegex.test(firstNameInput.value); 
+    var lnError = !nameRegex.test(lastNameInput.value); 
+    var phError = !phoneRegex.test(phoneNumberInput.value);  
+    
+    if (fnError) { 
+      errorMessage += "Please verify your first name is correct"; 
+    }
+    if (lnError) { // if name unsatisfactory
+      errorMessage += "\nPlease verify your last name is correct"; 
+    }
+    if (phError) {
+      errorMessage += "\nPlease enter a valid phone number";
+    }
+    
+    if (fnError || lnError || phError) { 
+      window.alert(errorMessage); 
+      return true; 
+    } 
+    return false; 
 }
 
 </script>
