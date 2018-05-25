@@ -1,6 +1,6 @@
 <script>
-var nameRegex = /^[a-z ,.'-]+$/i; 
-var phoneRegex = /^\d{10}$/gm; 
+var nameRegex = /^[a-z ,.'-]+$/i;
+var phoneRegex = /^\d{10}$/gm;
 var firstNameInput = document.getElementById("firstName");
 var lastNameInput = document.getElementById("lastName");
 var phoneNumberInput = document.getElementById("phoneNumber");
@@ -15,9 +15,9 @@ document.getElementById("sendButton").addEventListener("click", async function()
     console.log("First Name: " + firstNameInput.value);
     console.log("Last Name: " + lastNameInput.value);
     console.log("Phone Number: " + phoneNumberInput.value);
-    
+
     if(!checkError()) {
-    
+
       // check for existence in the google sheets
       console.log('calling send()');
 
@@ -25,9 +25,9 @@ document.getElementById("sendButton").addEventListener("click", async function()
       console.log("userExists before send: " + userExists);
       await send();
       console.log("userExists after send: " + userExists);
-  
+
       redirectUser();
-    } 
+    }
 });
 
 function send() {
@@ -81,6 +81,7 @@ function redirectUser() {
             "&entry.1355554313=" +
             phoneNumberInput.value +
             "&submit=Submit";
+    location.href = url;
   }
   else {
     //Redirect user to sign up page
@@ -91,32 +92,32 @@ function redirectUser() {
             lastNameInput.value +
             "&entry.1768999351=" +
             phoneNumberInput.value;
+    location.href = url;
   }
   console.log(url);
-  location.href = url;
 }
 
-function checkError() { 
+function checkError() {
     var errorMessage = "";
-    var fnError = !nameRegex.test(firstNameInput.value); 
-    var lnError = !nameRegex.test(lastNameInput.value); 
-    var phError = !phoneRegex.test(phoneNumberInput.value);  
-    
-    if (fnError) { 
-      errorMessage += "Please verify your first name is correct"; 
+    var fnError = !nameRegex.test(firstNameInput.value);
+    var lnError = !nameRegex.test(lastNameInput.value);
+    var phError = !phoneRegex.test(phoneNumberInput.value);
+
+    if (fnError) {
+      errorMessage += "Please verify your first name is correct";
     }
     if (lnError) { // if name unsatisfactory
-      errorMessage += "\nPlease verify your last name is correct"; 
+      errorMessage += "\nPlease verify your last name is correct";
     }
     if (phError) {
       errorMessage += "\nPlease enter a valid phone number";
     }
-    
-    if (fnError || lnError || phError) { 
-      window.alert(errorMessage); 
-      return true; 
-    } 
-    return false; 
+
+    if (fnError || lnError || phError) {
+      window.alert(errorMessage);
+      return true;
+    }
+    return false;
 }
 
 </script>

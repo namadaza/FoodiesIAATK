@@ -1,11 +1,14 @@
 # FoodiesIAATK
 
-## Features / Bugs to Fix (for MVP)
-* Implement input text parsing (use Regex, define rules for first/last/phone# inputs)
-    * Ie. first/last should not contain numeric numbers, allow a few special characters
+## Features to Implement
+* Autocomplete on input form
+    * Either first name AND last name
+    * OR phone number
+    * OR both
+* Spanish language
+
+## Bug Fixes / Improvements
 * Fix bugs with reporting Already checked in error
-* Add logic to Google App Script to match Check In date with current date
-    * Ie. only report match if first/last/phone# has not been checked in for current date
 * Fix styling to make site appear cleaner
 
 ### Understanding This Project

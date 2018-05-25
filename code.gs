@@ -32,9 +32,24 @@ function getDataCheckIn(parameters) {
     var uni = parameters[0] + parameters[1] + parameters[2];
     Logger.log("Checking check in sheet for query: " + uni);
 
-    for(var i = 0; i < values.length; i++){
+    var d = new Date();
+    var currentDate = d.getDay() + "/" + d.getMonth() + "/" + d.getFullYear();
+
+    for(var i = values.length-1; i >= 0; i--){
       var dt = (values[i][1] || '') + (values[i][2] || 0) + (values[i][3] || '');
       Logger.log("Query against: " + dt);
+      if (values[i][0] == "Timestamp") {
+        //If row is timestamp, break, no entries
+        break;
+      }
+      Logger.log("Current Date: " + currentDate);
+      var valueD = values[i][0];
+      var valueDate = valueD.getDay() + "/" + valueD.getMonth() + "/" + valueD.getFullYear();
+      Logger.log("Value's Date: " + valueDate);
+      if (currentDate != valueDate) {
+        //Not current date, stop checking
+        break;
+      }
       if(dt == uni) {
         Logger.log(dt + " ==== " + uni);
         return 'ALREADY EXIST';
