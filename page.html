@@ -4,7 +4,8 @@
         <title> IAATK Foodies </title>
         <base target="_top">
             <?!= include('stylesheet'); ?>
-                </head>
+                <?!= include('autocomplete_stylesheet'); ?>
+                    </head>
     <body>
         <div class = "header">
             <img src ="https://drive.google.com/uc?export=download&id=1PWKRAZ2zeUvFwd2SZ2SUsyrSk1mj4vuc" id="header_logo">
@@ -12,10 +13,16 @@
         <div class = "content">
             <div class="form-style-6">
                 <h1>Enter your details</h1>
-                <form>
-                    <input id = "firstName" type="text" name="field1" placeholder="First Name / Nombre" />
-                    <input id = "lastName" type="text" name="field2" placeholder="Last Name / Apellido" />
-                    <input id = "phoneNumber" type="text" name="field3" placeholder="Phone Number / Numero de Celular" />
+                <form autocomplete="off" action="/action_page.php">
+                    <div class="autocomplete">
+                        <input id = "firstName" type="text" name="field1" placeholder="First Name / Nombre" />
+                    </div>
+                    <div class="autocomplete">
+                        <input id = "lastName" type="text" name="field2" placeholder="Last Name / Apellido" />
+                    </div>
+                    <div class="autocomplete">
+                        <input id = "phoneNumber" type="text" name="field3" placeholder="Phone Number / Numero de Celular" />
+                    </div>
                     <input id = "sendButton" type="button" value="Send" />
                 </form>
             </div>
@@ -31,5 +38,6 @@
             </center>
         </div>
         <?!= include('javascript'); ?>
-            </body>
+            <?!= include('autocomplete'); ?>
+                </body>
 </html>
