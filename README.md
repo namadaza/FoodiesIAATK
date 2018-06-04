@@ -2,10 +2,6 @@
 
 ## Features to Implement
 * Autocomplete on input form
-    * Either first name AND last name
-    * OR phone number
-    * OR both
-* Spanish language
 
 ## Bug Fixes / Improvements
 * Fix bugs with reporting Already checked in error

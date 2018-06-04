@@ -50,7 +50,8 @@ function getDataCheckIn(parameters) {
         //Not current date, stop checking
         break;
       }
-      if(dt == uni) {
+      //if(dt == uni) {
+      if ((values[i][1] == parameters[0] && values[i][2] == parameters[1]) || values[i][3] == parameters[2]) { //match (firstname lastname) OR number
         Logger.log(dt + " ==== " + uni);
         return 'ALREADY EXIST';
       }
@@ -74,7 +75,8 @@ function getDataSignUp(parameters){
     for(var i = 0; i < values.length; i++){
       var dt = (values[i][1] || '') + (values[i][2] || 0) + (values[i][3] || '');
       Logger.log("Query against: " + dt);
-      if(dt == uni) {
+      //if(dt == uni) {
+      if ((values[i][1] == parameters[0] && values[i][2] == parameters[1]) || values[i][3] == parameters[2]) { //match (firstname lastname) OR number
         Logger.log(dt + " ==== " + uni);
         //return 'ALREADY EXIST';
         //Check if checked in already...
@@ -95,3 +97,5 @@ function getDataSignUp(parameters){
     return [[e.message], ['U SENT ' + JSON.stringify(parameters)]];
   }
 }
+
+
