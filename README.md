@@ -2,7 +2,10 @@
 
 ## Features to Implement
 * Autocomplete on input form
-
+* Change return values of code.gs to return meaningful data
+    *  When a user has already checked in today, show time/date which shows when that was done in a pop up message.
+    *  When a user hasn't checked in today but signed up, show meaningful User data eg. Number of members in Family.
+    
 ## Bug Fixes / Improvements
 * Fix bugs with reporting Already checked in error
 * Fix styling to make site appear cleaner
