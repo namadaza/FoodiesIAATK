@@ -1,43 +1,115 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <title> IAATK Foodies </title>
-        <base target="_top">
-            <?!= include('stylesheet'); ?>
-                <?!= include('autocomplete_stylesheet'); ?>
-                    </head>
-    <body>
-        <div class = "header">
-            <img src ="https://drive.google.com/uc?export=download&id=1PWKRAZ2zeUvFwd2SZ2SUsyrSk1mj4vuc" id="header_logo">
-                </div>
-        <div class = "content">
-            <div class="form-style-6">
-                <h1>Enter your details</h1>
-                <form autocomplete="off" action="/action_page.php">
-                    <div class="autocomplete">
-                        <input id = "firstName" type="text" name="field1" placeholder="First Name / Nombre" />
-                    </div>
-                    <div class="autocomplete">
-                        <input id = "lastName" type="text" name="field2" placeholder="Last Name / Apellido" />
-                    </div>
-                    <div class="autocomplete">
-                        <input id = "phoneNumber" type="text" name="field3" placeholder="Phone Number / Numero de Celular" />
-                    </div>
-                    <input id = "sendButton" type="button" value="Send" />
-                </form>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title> IAATK Foodies </title>
+    <base target="_top">
+    <?!= include('bootstrap_stylesheet'); ?>    
+    <?!= include('stylesheet'); ?>
+    <?!= include('autocomplete_stylesheet'); ?>
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
+</head>
+<body>
+    <div class="custom-card">
+
+        <form autocomplete="off" action="/action_page.php">
+            <div class="row">
+                <div class="col-sm-12">
+                   <div class="jumbotron">
+                       <img src ="https://drive.google.com/uc?export=download&id=1PWKRAZ2zeUvFwd2SZ2SUsyrSk1mj4vuc" id="header_logo">
+                   </div>
+               </div>
+                <div class="col-sm-12">
+                   <h1 class="custom-h1"> Enter Details <i class="fas fa-file-alt custom-margin-left-5px"></i></h1>
+                   <h4 class="custom-h4 custom-spanish">Introduzca Su Información</h4>
+               </div>
+           </div>
+           <hr class="custom-hr">
+           <div class="row">
+            <div class="col-sm-12">
+                <label class="custom-font-1" for="firstName">First Name / <span class="custom-spanish"> Nombre </span> <i class="fas fa-user-alt custom-margin-left-5px"></i> </label>
             </div>
-            <center style="padding: 20px">
-                <div class="block">
-                    <a id="state"><span></span></a>
-                    <div id="status"></div>
+            <div class="col-sm-12">
+                <div class="autocomplete">
+                    <input id = "firstName" name="field1" type="email" class="form-control">
                 </div>
-                <div class="block">
-                    <span></span>
-                    <div id="myDiv"></div>
-                </div>
-            </center>
+            </div>
         </div>
-        <?!= include('javascript'); ?>
-            <?!= include('autocomplete'); ?>
-                </body>
+        <div class="row">
+            <div class="col-sm-12">
+                <label class="custom-font-1" for="lastName">Last Name / <span class="custom-spanish">Apellido</span> <i class="fas fa-user-alt custom-margin-left-5px"></i>  </label>
+            </div>
+            <div class="col-sm-12">
+                <div class="autocomplete">
+                    <input id = "lastName" name="field2" type="email" class="form-control">
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <label class="custom-font-1" for="phoneNumber"> Phone / <span class="custom-spanish">Celular</span> <i class="fas fa-phone custom-margin-left-5px"></i> </label>
+            </div>
+            <div class="col-sm-12">
+                <div class="autocomplete">
+                    <input id = "phoneNumber" name="field3" type="email" class="form-control"  >
+                </div>
+            </div>
+        </div>
+        <div class="row">
+           <div class="col-sm-12">
+            <a id="sendButton" class="btn btn-primary btn-lg btn-block" role="button" value="Submit" > Submit / <span class="custom-spanish">Enviar </span> <i class="fas fa-paper-plane custom-margin-left-5px"></i></a>
+        </div>
+    </div>
+</form>
+</div>
+<!-- 
+<div id="form-field" class="container">
+    <form>
+        <div class="row">
+          <div class="form-group">
+            <div class="col-sm-12">
+
+                <div class="autocomplete">
+                    <input id = "firstName" name="field1" type="email" class="form-control" placeholder="First Name / Nombre">
+                </div>
+            </div>
+            <div class="col-sm-12">
+                <div class="autocomplete">
+                    <input id = "lastName" name="field2" type="email" class="form-control" placeholder="Last Name / Apellido">
+                </div>
+            </div>
+            <div class="col-sm-12">
+                <div class="autocomplete">
+                    <input id = "phoneNumber" name="field3" type="email" class="form-control"  placeholder="Phone Number / Numero de Celular">
+                </div>
+            </div>
+        </div> 
+    </div>
+    <div class="col-sm-12">
+        <input id = "sendButton" class="btn btn-primary btn-lg btn-block" type="button" value="Submit" />
+    </div>
+</form>
+</div> -->
+
+<!-- <div class = "content">
+    <div class="form-style-6">
+        <h1>Enter your details</h1>
+        <form autocomplete="off" action="/action_page.php">
+            <div class="autocomplete">
+                <input id = "firstName" type="text" name="field1" placeholder="First Name / Nombre" />
+            </div>
+            <div class="autocomplete">
+                <input id = "lastName" type="text" name="field2" placeholder="Last Name / Apellido" />
+            </div>
+            <div class="autocomplete">
+                <input id = "phoneNumber" type="text" name="field3" placeholder="Phone Number / Numero de Celular" />
+            </div>
+            <input id = "sendButton" type="button" value="Send" />
+        </form>
+    </div>
+</div> -->
+<?!= include('javascript'); ?>
+<?!= include('autocomplete'); ?>
+</body>
 </html>
