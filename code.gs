@@ -25,7 +25,7 @@ function doPost(e){
 
 function doGet(request) {
   return HtmlService.createTemplateFromFile('page')
-      .evaluate().setTitle('IAATK Foodies');
+      .evaluate().setTitle('IAATK Foodies').addMetaTag('viewport', 'width=device-width, initial-scale=1');
 }
 
 function include(filename) {
@@ -131,5 +131,4 @@ function getAutocomplete() {
     return [[e.message], ['U SENT ' + JSON.stringify(parameters)]];
   }
 }
-
 
