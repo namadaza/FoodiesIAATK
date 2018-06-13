@@ -87,6 +87,9 @@ function getDataSignUp(parameters){
         
         for(var i = 0; i < values.length; i++){
             var dt = (values[i][1] || '') + (values[i][2] || 0) + (values[i][3] || '');
+            if (dt == 0) {
+                continue;
+            }
             Logger.log("Query against: " + dt);
             if ((values[i][signupColumns.firstName] == parameters[0] &&
                  values[i][signupColumns.lastName] == parameters[1]) ||
