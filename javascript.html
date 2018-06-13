@@ -60,6 +60,9 @@
                                                               else if (response[0] === "1") {
                                                               userExists = 1;
                                                               familySize = response[1];
+                                                              firstNameInput.value = response[2];
+                                                              lastNameInput.value = response[3];
+                                                              phoneNumberInput.value = response[4];
                                                               }
                                                               else {
                                                               userExists = 0;
@@ -130,5 +133,4 @@
                        return false;
                        }
                        
-                       </script>
-
+    </script>
