@@ -1,136 +1,138 @@
 <script>
-    var nameRegex = /^[a-z ,.'-]+$/i;
-                       var phoneRegex = /^\d{10}$/gm;
-                       var firstNameInput = document.getElementById("firstName");
-                       var lastNameInput = document.getElementById("lastName");
-                       var phoneNumberInput = document.getElementById("phoneNumber");
-                       
-                       // userExists == 2 -> User IN Sign up sheet AND Check in sheet
-                       // userExists == 1 -> User IN Sign up sheet NOT Check in sheet
-                       // userExists == 0 -> User NOT IN Sign up sheet AND NOT IN Check in sheet
-                       var userExists = 0;
-                       
-                       // Save returned family size value from check in
-                       var familySize;
-                       
-                       document.getElementById("sendButton").addEventListener("click", async function() {
-                                                                              console.log("Checking database for given user details: ");
-                                                                              console.log("First Name: " + firstNameInput.value);
-                                                                              console.log("Last Name: " + lastNameInput.value);
-                                                                              console.log("Phone Number: " + phoneNumberInput.value);
-                                                                              
-                                                                              if(!checkError()) {
-                                                                              
-                                                                              if (firstNameInput.value === "") {
-                                                                              firstNameInput.value = "unspecified";
-                                                                              }
-                                                                              if (lastNameInput.value === "") {
-                                                                              lastNameInput.value = "unspecified";
-                                                                              }
-                                                                              if (phoneNumberInput.value === "") {
-                                                                              phoneNumberInput.value = "unspecified";
-                                                                              }
-                                                                              
-                                                                              // check for existence in the google sheets
-                                                                              console.log('calling send()');
-                                                                              
-                                                                              // wait for send to set userExists
-                                                                              console.log("userExists before send: " + userExists);
-                                                                              await send();
-                                                                              console.log("userExists after send: " + userExists);
-                                                                              
-                                                                              redirectUser();
-                                                                              }
-                                                                              });
-                       
-                       function send() {
-                       return new Promise(function (resolve, reject) {
-                                          var fName = firstNameInput.value;
-                                          var lName = lastNameInput.value;
-                                          var pNumber = phoneNumberInput.value;
-                                          google.script.run
-                                          .withSuccessHandler(function(response){
-                                                              console.log("success");
-                                                              console.log(response);
-                                                              response = response.split(" ");
-                                                              console.log(response);
-                                                              if (response[0] === "2") {
-                                                              userExists = 2;
-                                                              }
-                                                              else if (response[0] === "1") {
-                                                              userExists = 1;
-                                                              familySize = response[1];
-                                                              firstNameInput.value = response[2];
-                                                              lastNameInput.value = response[3];
-                                                              phoneNumberInput.value = response[4];
-                                                              }
-                                                              else {
-                                                              userExists = 0;
-                                                              }
-                                                              resolve(userExists);
-                                                              })
-                                          .withFailureHandler(function(err) {
-                                                              console.log("failure");
-                                                              console.log("error");
-                                                              userExists = 0;
-                                                              reject(Error("Invalid response from sheets"));
-                                                              })
-                                          .getDataSignUp([fName,lName,pNumber]);
-                                          })
-                       }
-                       
-                       function redirectUser() {
-                       var url = "";
-                       
-                       if (userExists == 2) {
-                       //Clear input fields, report to user they've checked in
-                       console.log("signed up and already checked in, show some confirmation, userExists: " + userExists);
-                       window.alert("You've already checked in for today!");
-                       firstNameInput.value = "";
-                       lastNameInput.value = "";
-                       phoneNumberInput.value = "";
-                       }
-                       else if (userExists == 1) {
-                       //Redirect user to check in page
-                       console.log("check in page, userExists: " + userExists);
-                       url = "https://docs.google.com/forms/d/e/1FAIpQLScJneCEvcM8D7XGQIvdF_RuMHP5-juOlUTjO5OdSRlKUThYtg/formResponse?&ifq&entry.37100989=" +
-                       firstNameInput.value +
-                       "&entry.1071438744=" +
-                       lastNameInput.value +
-                       "&entry.1355554313=" +
-                       phoneNumberInput.value +
-                       "&submit=Submit";
-                       console.log(url);
-                       alert('Checking in family of size ' + familySize + '.');
-                       location.href = url;
-                       }
-                       else {
-                       //Redirect user to sign up page
-                       console.log("sign up page, userExists: " + userExists);
-                       url = "https://docs.google.com/forms/d/e/1FAIpQLScuL4JW3ldVJcHtHvaAKa0jgvQ_yUMG4jB8dPfw1-HPrjwP7Q/viewform?usp=pp_url&entry.339946888=" +
-                       firstNameInput.value +
-                       "&entry.259180344=" +
-                       lastNameInput.value +
-                       "&entry.1768999351=" +
-                       phoneNumberInput.value;
-                       location.href = url;
-                       }
-                       console.log(url);
-                       }
-                       
-                       function checkError() {
-                       var errorMessage = "";
-                       var fnError = !nameRegex.test(firstNameInput.value);
-                       var lnError = !nameRegex.test(lastNameInput.value);
-                       var phError = !phoneRegex.test(phoneNumberInput.value);
-                       var nameError = fnError || lnError
-                       
-                       if (nameError && phError) {
-                       errorMessage = "Please Enter Either a valid Name or a valid Phone Number";
-                       window.alert(errorMessage);
-                       return true;
-                       }
-                       return false;
-                       }
-                       
-    </script>
+var nameRegex = /^[a-z ,.'-]+$/i;
+var phoneRegex = /^\d{10}$/gm;
+var firstNameInput = document.getElementById("firstName");
+var lastNameInput = document.getElementById("lastName");
+var phoneNumberInput = document.getElementById("phoneNumber");
+
+// userExists == 2 -> User IN Sign up sheet AND Check in sheet
+// userExists == 1 -> User IN Sign up sheet NOT Check in sheet
+// userExists == 0 -> User NOT IN Sign up sheet AND NOT IN Check in sheet
+var userExists = 0;
+
+// Save returned family size value from check in
+var familySize;
+
+document.getElementById("sendButton").addEventListener("click", async function() {
+    console.log("Checking database for given user details: ");
+    console.log("First Name: " + firstNameInput.value);
+    console.log("Last Name: " + lastNameInput.value);
+    console.log("Phone Number: " + phoneNumberInput.value);
+
+    if(!checkError()) {
+
+      if (firstNameInput.value === "") {
+        firstNameInput.value = "unspecified";
+      }
+      if (lastNameInput.value === "") {
+        lastNameInput.value = "unspecified";
+      }
+      if (phoneNumberInput.value === "") {
+        phoneNumberInput.value = "unspecified";
+      }
+
+      // check for existence in the google sheets
+      console.log('calling send()');
+
+      // wait for send to set userExists
+      console.log("userExists before send: " + userExists);
+      await send();
+      console.log("userExists after send: " + userExists);
+
+      redirectUser();
+    }
+});
+
+function send() {
+  return new Promise(function (resolve, reject) {
+    var fName = firstNameInput.value;
+    var lName = lastNameInput.value;
+    var pNumber = phoneNumberInput.value;
+    google.script.run
+    .withSuccessHandler(function(response){
+      console.log("success");
+      console.log(response);
+      response = response.split(" ");
+      console.log(response);
+      if (response[0] === "2") {
+        userExists = 2;
+      }
+      else if (response[0] === "1") {
+        userExists = 1;
+        familySize = response[1];
+        firstNameInput.value = response[2];
+        lastNameInput.value = response[3];
+        phoneNumberInput.value = response[4];
+      }
+      else {
+        userExists = 0;
+      }
+      resolve(userExists);
+    })
+    .withFailureHandler(function(err) {
+      console.log("failure");
+      console.log("error");
+      userExists = 0;
+      reject(Error("Invalid response from sheets"));
+    })
+    .getDataSignUp([fName,lName,pNumber]);
+  })
+}
+
+function redirectUser() {
+  var url = "";
+
+  if (userExists == 2) {
+    //Clear input fields, report to user they've checked in
+    console.log("signed up and already checked in, show some confirmation, userExists: " + userExists);
+    window.alert("You've already checked in for today!");
+    firstNameInput.value = "";
+    lastNameInput.value = "";
+    phoneNumberInput.value = "";
+  }
+  else if (userExists == 1) {
+    //Redirect user to check in page
+    console.log("check in page, userExists: " + userExists);
+    url = "https://docs.google.com/forms/d/e/1FAIpQLScJneCEvcM8D7XGQIvdF_RuMHP5-juOlUTjO5OdSRlKUThYtg/formResponse?&ifq&entry.37100989=" +
+            firstNameInput.value +
+            "&entry.1071438744=" +
+            lastNameInput.value +
+            "&entry.1355554313=" +
+            phoneNumberInput.value +
+            "&entry.1972470301=" +
+            familySize +
+            "&submit=Submit";
+    console.log(url);
+    alert('Checking in family of size ' + familySize + '.');
+    location.href = url;
+  }
+  else {
+    //Redirect user to sign up page
+    console.log("sign up page, userExists: " + userExists);
+    url = "https://docs.google.com/forms/d/e/1FAIpQLScuL4JW3ldVJcHtHvaAKa0jgvQ_yUMG4jB8dPfw1-HPrjwP7Q/viewform?usp=pp_url&entry.339946888=" +
+            firstNameInput.value +
+            "&entry.259180344=" +
+            lastNameInput.value +
+            "&entry.1768999351=" +
+            phoneNumberInput.value;
+    location.href = url;
+  }
+  console.log(url);
+}
+
+function checkError() {
+    var errorMessage = "";
+    var fnError = !nameRegex.test(firstNameInput.value);
+    var lnError = !nameRegex.test(lastNameInput.value);
+    var phError = !phoneRegex.test(phoneNumberInput.value);
+    var nameError = fnError || lnError
+
+    if (nameError && phError) {
+      errorMessage = "Please Enter Either a valid Name or a valid Phone Number";
+      window.alert(errorMessage);
+      return true;
+    }
+    return false;
+}
+
+</script>

@@ -1,7 +1,7 @@
 <script>
 
 function autocomplete(inp, arr) {
-  
+
   /*the autocomplete function takes two arguments,
   the text field element and an array of possible autocompleted values:*/
   var currentFocus;
@@ -117,7 +117,7 @@ google.script.run
     .getAutocomplete();
 
 
-setTimeout(function(){ 
+setTimeout(function(){
   autocomplete(document.getElementById("lastName"), lastNames);
   autocomplete(document.getElementById("phoneNumber"), phoneNumbers);
 }, 2000);
@@ -126,7 +126,7 @@ setTimeout(function(){
 
 
 function autocomplete2(inp,inp2, arr) {
-  
+
   /*the autocomplete function takes two arguments,
   the text field element and an array of possible autocompleted values:*/
   var currentFocus;
@@ -224,7 +224,7 @@ function autocomplete2(inp,inp2, arr) {
       });
 }
 
-setTimeout(function(){ 
+setTimeout(function(){
   var firstAndLastNames = [];
   for (var i = 0; i < firstNames.length; i++) {
     firstAndLastNames.push(firstNames[i] + ' ' + lastNames[i]);
