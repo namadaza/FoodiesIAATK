@@ -39,11 +39,23 @@ function getDataCheckIn(parameters) {
     var sh = SpreadsheetApp.openById(checkin_sheet_id).getSheetByName(sheet_name);
     var values = sh.getDataRange().getValues();
 
-    var uni = parameters[0] + parameters[1] + parameters[2];
+    var uni;
+    var hasPhoneNum = true;
+
+    if (parameters[2] == "unspecified") {
+      Logger.log("No phone number provided");
+      uni = parameters[0] + parameters[1];
+      hasPhoneNum = false;
+    }
+    else {
+      uni = parameters[0] + parameters[1] + parameters[2];
+      hasPhoneNum = true;
+    }
+
     Logger.log("Checking check in sheet for query: " + uni);
 
     var d = new Date();
-    var currentDate = d.getDay() + "/" + d.getMonth() + "/" + d.getFullYear();
+    var currentDate = (d.getMonth()+1) + "/" + d.getDate() + "/" + d.getFullYear();
 
     for(var i = values.length-1; i >= 0; i--){
       var dt = (values[i][1] || '') + (values[i][2] || 0) + (values[i][3] || '');
@@ -57,14 +69,24 @@ function getDataCheckIn(parameters) {
       }
       Logger.log("Current Date: " + currentDate);
       var valueD = values[i][0];
-      var valueDate = valueD.getDay() + "/" + valueD.getMonth() + "/" + valueD.getFullYear();
-      Logger.log("Value's Date: " + valueDate);
+      if (valueD) {
+        var valueDate = (valueD.getMonth()+1) + "/" + valueD.getDate() + "/" + valueD.getFullYear();
+        Logger.log("Value's Date: " + valueDate);
+      }
+
       if (currentDate != valueDate) {
         //Not current date, stop checking
         break;
       }
-      //if(dt == uni) {
-      if ((values[i][1] == parameters[0] && values[i][2] == parameters[1]) || values[i][3] == parameters[2]) { //match (firstname lastname) OR number
+
+      var queryAgainst;
+      if (hasPhoneNum) {
+        queryAgainst = values[i][1] + values[i][2] + values[i][3];
+      }
+      else {
+        queryAgainst = values[i][1] + values[i][2];
+      }
+      if (uni == queryAgainst) { //match (firstname lastname) OR number
         Logger.log(dt + " ==== " + uni);
         return 'ALREADY EXIST';
       }
@@ -81,12 +103,29 @@ function getDataSignUp(parameters){
   try {
     var sh = SpreadsheetApp.openById(signup_sheet_id).getSheetByName(sheet_name);
     var values = sh.getDataRange().getValues();
+    var uni;
+    var hasPhoneNum = true;
 
-    var uni = parameters[0] + parameters[1] + parameters[2];
+    if (parameters[2] == "unspecified") {
+      Logger.log("No phone number provided");
+      uni = parameters[0] + parameters[1];
+      hasPhoneNum = false;
+    }
+    else {
+      uni = parameters[0] + parameters[1] + parameters[2];
+      hasPhoneNum = true;
+    }
+
     Logger.log("Checking sign up sheet for query: " + uni);
 
     for(var i = 0; i < values.length; i++){
-      var dt = (values[i][1] || '') + (values[i][2] || 0) + (values[i][3] || '');
+      var dt;
+      if (hasPhoneNum) {
+        dt = (values[i][1] || '') + (values[i][2] || 0) + (values[i][3] || '');
+      }
+      else {
+        dt = (values[i][1] || '') + (values[i][2] || 0);
+      }
       if (dt == 0) {
         continue;
       }
